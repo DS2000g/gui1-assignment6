@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+<!--
+File: /~dshapiro
+91.461 Assignment: Assignment 6
+Daniel Shapiro, UMass Lowell Computer Science, dshapiro@student.uml.edu
+Copyright (c) 2017 by Daniel Shapiro. All rights reserved. May be
+freely
+copied or excerpted for educational purposes with credit to the
+author.
+updated by DMS on November 29, 2017 at 6:00 PM
+-->
+
+<head> 
+   <link rel="stylesheet" href="css/style.css">
+   <link rel="stylesheet" href="css/jquery-ui.css">
+   <style>
+      #yearsSD, #mlYearSD, #interestSD, #prGalSD {
+                float: right;
+                clear: right;
+                width: 300px;
+                height: 10px;
+                margin: 15px;
+        }
+   </style>
+
+
+<title> Daniel Shapiro Assignment6 -  Car Purchase Compaison Tool v3.0</title>
+
+</head>
+
+<body onload="pageLoad()">
+<h1> Car Purchase Compaison Tool v3.0</h1>
+
+<!--
+Adding the Javascript
+-->
+
+<!--
+ Local embedded
+-->
+
+<!--
+DEBUG
+<script>
+function javaScriptTest01() 
+{
+   document.getElementById('debug').value = 'javaScriptTest01';
+}
+function javaScriptTest02() 
+{
+   document.getElementById('debug').value = 'javaScriptTest02';
+}
+</script> 
+-->
+
+<!--
+ jQuery
+<script
+  src="https://code.jquery.com/jquery-3.2.1.js"
+  integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+  crossorigin="anonymous">
+</script>
+-->
+<script src="js/jquery-1.js"></script>
+<script src="js/jquery-ui.js"></script>
+<script> 
+        $( function() {
+                function updateVal() {
+                        var y = "y=" + $("#yearsSD").slider("value")    + "\n";
+                        var m = "m=" + $("#mlYearSD").slider("value")   + "\n";
+                        var i = "i=" + $("#interestSD").slider("value") + "\n";
+                        var p = "p=" + $("#prGalSD").slider("value")    + "\n";
+                        $("#ta1").val(y + m + i + p);
+                        $("#years").val($("#yearsSD").slider("value"));
+                        $("#mlYear").val($("#mlYearSD").slider("value"));
+                        $("#interest").val($("#interestSD").slider("value"));
+                        $("#prGal").val($("#prGalSD").slider("value"));
+                }
+
+                $("#yearsSD").slider({
+                        orientation: "horizontal",
+                        range: "min",
+                        step: 1,
+                        max: 15,
+                        value: 3,
+                        slide: updateVal,
+                        change: updateVal
+                });
+                $("#mlYearSD").slider({
+                        orientation: "horizontal",
+                        range: "min",
+                        step: 100,
+                        max: 30000,
+                        value: 15000,
+                        slide: updateVal,
+                        change: updateVal
+                });
+                $("#interestSD" ).slider({
+                        orientation: "horizontal",
+                        range: "min",
+                        step: 0.5,
+                        max: 100,
+                        min: 0.1,
+                        value: 5,
+                        slide: updateVal,
+                        change: updateVal
+                });
+                $("#prGalSD" ).slider({
+                        orientation: "horizontal",
+                        range: "min",
+                        step: 1,
+                        max: 100,
+                        value: 4,
+                        slide: updateVal,
+                        change: updateVal
+                });
+        } );
+</script>
+<!--
+ JS dir NOTE: must be AFTER jQuery as it depends on it
+-->
+<script src="js/assignment6.js"></script> 
+
+<br>
+<textarea id="debug" name="debug" rows="4" cols="50" style="display: none;">
+</textarea> 
+<textarea rows="4" cols="50" id="ta1" style="display: none;"></textarea>
+<br>
+
+<!--
+Input
+-->
+
+<br>
+ 
+<hr>
+Common Options:
+<table class="tableIn">
+   <tr>
+   <td>Years:           
+      <div id="yearsTab">
+         <input type="text" value="3" id="years"><br>
+         <div id="yearsSD" class="ui-slider"></div>
+      </div>
+   </td>
+   <td>Interst Rate (%):
+      <div id="interestTab">
+         <input type="text" value="5" id="interest">
+         <div id="interestSD" class="ui-slider"></div>
+      </div>
+   </td>
+   <td>Miles/Year (ml): 
+      <div id="mlYearTab">
+         <input type="text" value="15000" id="mlYear">
+         <div id="mlYearSD" class="ui-slider"></div>
+      </div>
+   </td>
+   <td>Price/Gallon ($):
+      <div id="prGalTab">
+         <input type="text" value="4" id="prGal">
+         <div id="prGalSD" class="ui-slider"></div>
+      </div>
+   </td>
+   </tr>
+</table>
+
+<hr>
+<table class=tableOut>
+   <tr>
+   <td>Number Of Prices:
+   <input type="text" value="0" id="prices" onblur="procPrices()"></td>
+   </tr>
+   <tr>
+   <td>Number Of MPG   :
+   <input type="text" value="0" id="mgps" onblur="procMPGs()"></td>
+   </tr>
+   <tr>
+   <td>Number Of Maintence Costs   :
+   <input type="text" value="0" id="repairs" onblur="procRepairs()"></td>
+   </tr>
+   <tr>
+   <td>Number Of Insurance Premiums   :
+   <input type="text" value="0" id="insurances" onblur="procInsurances()"></td>
+   </tr>
+</table>
+
+<button onclick="makeForm();">Enter Data</button><br>
+
+<hr>
+<table id="priceTable" class="tableIn">
+</table>
+
+<hr>
+<table id="mpgTable" class="tableIn">
+</table>
+
+<hr>
+<table id="repairTable" class="tableIn">
+</table>
+
+<hr>
+<table id="insuranceTable" class="tableIn">
+</table>
+
+<hr>
+
+<!--
+Repeat Information
+-->
+
+<button onclick="verifyData();">Verify Data</button><br>
+
+<br>
+<textarea id="repeat" name="repeat" rows="15" cols="40" readonly>
+</textarea> 
+<br>
+<hr>
+
+<!--
+Table
+-->
+
+<button onclick="makeOutTable(); openTable(event, 'PrvMPG');">Submit</button><br>
+
+Legend: <br>
+&nbsp; &nbsp; &nbsp; Cost per month<br>
+&nbsp; &nbsp; &nbsp; Cost per mile<br>
+&nbsp; &nbsp; &nbsp; Total monthly cost<br>
+
+<hr>
+
+<div class="tab">
+  <button class="tablinks" onclick="openTable(event, 'PrvMPG')">Price vs MPG</button>
+  <button class="tablinks" onclick="openTable(event, 'PrvRCT')">Price vs Maintence Cost</button>
+  <button class="tablinks" onclick="openTable(event, 'PrvICT')">Price vs Insurance Premium</button>
+</div>
+
+<div id="PrvMPG" class="tabcontent">
+  <div style="overflow-x:auto;" >
+  <table id="outTable" class="tableOut">
+  </table>
+  </div>
+</div>
+
+<div id="PrvRCT" class="tabcontent">
+  <div style="overflow-x:auto;" >
+  <table id="prVrepTable" class="tableOut">
+  </table>
+  </div>
+</div>
+
+<div id="PrvICT" class="tabcontent">
+  <div style="overflow-x:auto;" >
+  <table id="prVinTable" class="tableOut">
+  </table>
+  </div>
+</div>
+<hr>
+
+<p> <a href="http://weblab.cs.uml.edu/~dshapiro/index.html">Back</a> <br> </p>
+
+</body>
+</html>
